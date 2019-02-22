@@ -2,11 +2,17 @@ const RichEmbed = require('discord.js').RichEmbed;
 const LgelAPI = require('../services/lgel-api');
 
 module.exports = (bot, msg, args) => {
+	if (args.length != 1) {
+		msg.channel.send(":x: Username of the player missing.");
+		return;
+	}
+
+	const username = args[0];
 	const lgel = new LgelAPI();
-	lgel.findPlayer('Lampyre')
+	lgel.findPlayer(username)
 		.then(response => {
 			if (response.data.error) {
-				msg.channel.send('Ce joueur n\'existe pas!');
+				msg.channel.send(':x: The player ' + username + ' does not exist.');
 				return;
 			}
 			const player = response.data;
@@ -41,6 +47,6 @@ module.exports = (bot, msg, args) => {
 		})
 		.catch(error => {
 			console.error(error);
-			msg.channel.send('Erreur lors de la récupération des informations de ce joueur.');
+			msg.channel.send(':x: An error occured while requesting this player on LGEL.');
 		});
 };
