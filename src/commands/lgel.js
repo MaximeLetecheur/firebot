@@ -1,7 +1,7 @@
 const RichEmbed = require('discord.js').RichEmbed;
 const LgelAPI = require('../services/lgel-api');
 
-module.exports = (bot, msg) => {
+module.exports = (bot, msg, args) => {
 	const lgel = new LgelAPI();
 	lgel.findPlayer('Lampyre')
 		.then(response => {

@@ -71,9 +71,10 @@ Bot.prototype.bindEvents = function() {
 		if (msgContent.startsWith(config.prefix)) {
 			const args = msgContent.split(' ');
 			const cmd = args[0].substr(config.prefix.length);
+			args.shift();
 			if (cmd in this.actions) {
 				try {
-					this.actions[cmd](this, msg);
+					this.actions[cmd](this, msg, args);
 				}
 				catch (error) {
 					console.error('An error has occured when using the command' + cmd);

@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+module.exports = (bot, msg, args) => {
 	if (!msg.guild) return;
 
 	if (!msg.channel.permissionsFor(msg.author).has('MANAGE_MESSAGES')) {

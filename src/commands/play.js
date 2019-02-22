@@ -1,7 +1,7 @@
 const parseMessage = require('../utils').parseMessage;
 const youtube = require('ytdl-core');
 
-module.exports = (bot, msg) => {
+module.exports = (bot, msg, args) => {
 	if (!msg.guild) return;
 
 	const parts = parseMessage(msg.content);

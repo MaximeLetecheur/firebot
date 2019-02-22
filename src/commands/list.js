@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+module.exports = (bot, msg, args) => {
 	if (!msg.guild) return;
 
 	const titles = bot.songQueue.queue.map(track => `Title: ${track.title}, Requested by : ${track.requestor}`);
