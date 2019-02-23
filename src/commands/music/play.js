@@ -3,12 +3,16 @@ const SongQueue = require('../../songqueue');
 const Jukebox = require('../../jukebox');
 const join = require('./join');
 
-module.exports = (bot, msg, args) => {
+module.exports = async (bot, msg, args) => {
 	if (!msg.guild) return;
 
 	if (!youtube.validateURL(args[0])) {
 		msg.channel.send(':x: This is not a valid Youtube URL.');
 		return;
+	}
+
+	if (! (msg.guild.id in bot.voiceConnections)) {
+		await join(bot, msg);
 	}
 
 	const youtubeURL = args[0];
@@ -32,7 +36,6 @@ module.exports = (bot, msg, args) => {
 				info: info,
 			});
 
-			// Play immediatly the song when the jukebox isnt doing anything.
 			if (!bot.jukebox[msg.guild.id].playing) {
 				bot.jukebox[msg.guild.id].play(bot.songQueues[msg.guild.id].first(), msg);
 			}

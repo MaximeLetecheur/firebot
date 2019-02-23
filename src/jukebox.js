@@ -12,9 +12,9 @@ Jukebox.prototype.play = function(track, msg) {
 		track.dispatcher = this.bot.voiceConnections[msg.guild.id].playStream(youtube(track.youtubeURL, { audioonly: true }));
 		track.dispatcher.on('end', () => {
 			this.playing = false;
-			this.bot.songQueue[msg.guild.id].removeFirst();
-			if (this.bot.songQueue[msg.guild.id].count() > 0) {
-				this.play(this.bot.songQueue[msg.guild.id].first(), msg);
+			this.bot.songQueues[msg.guild.id].removeFirst();
+			if (this.bot.songQueues[msg.guild.id].count() > 0) {
+				this.play(this.bot.songQueues[msg.guild.id].first(), msg);
 			}
 		});
 		track.dispatcher.on('error', (err) => {
