@@ -15,6 +15,7 @@ function Bot() {
 
 	this.loadActions();
 	this.bindEvents();
+	this.updatePresence();
 }
 
 Bot.prototype.connect = function() {
@@ -34,6 +35,35 @@ Bot.prototype.loadActions = function() {
 		});
 	});
 };
+
+Bot.prototype.updatePresence = function() {
+	let cycle = 0;
+	setInterval(() => {
+		let content = "";
+		switch (cycle) {
+			case 0:
+				let servers = this.discordClient.guilds.array().length;
+				content = servers + " servers online!";
+				break;
+			case 1:
+				let users = this.discordClient.users.array().length;
+				content = users + " users online!";
+				break;
+			case 2:
+				let uptime = this.discordClient.uptime;
+				let m = Math.floor((uptime / 1000/60) % 60);
+				m = m < 10 ? "0" + m : m;
+				let h = Math.floor((uptime / 1000/60/60) % 60);
+				h = h < 10 ? "0" + h : h;
+				let j = Math.floor((uptime / 1000/60/60/60) % 24);
+				content = j + "J " + h + "h" + m + " of uptime!";
+		}
+		this.discordClient.user.setActivity(content);
+		if (cycle++ == 2) {
+			cycle = 0;
+		}
+	}, 2500);
+}
 
 Bot.prototype.bindEvents = function() {
 	this.discordClient.on('ready', () => {
