@@ -21,45 +21,45 @@ module.exports = (bot, msg, args) => {
 					title: `Informations de ${player.username}`,
 					fields: [
 						{
-							name: "Player",
+							name: 'Player',
 							value: player.username,
-							inline: true
+							inline: true,
 						},
 						{
-							name: "Premium ",
+							name: 'Premium ',
 							value: player.isPremium ? 'Yes' : 'No',
-							inline: true
+							inline: true,
 						},
 						{
-							name: "Level",
+							name: 'Level',
 							value: player.level,
-							inline: true
+							inline: true,
 						},
 						{
-							name: "Played Games",
+							name: 'Played Games',
 							value : `${player.playedGames} played games (${player.points} points)`,
-							inline: true
+							inline: true,
 						},
 						{
-							name: "Title",
-							value: player.title ? player.title : "..."
+							name: 'Title',
+							value: player.title ? player.title : '...',
 						},
 						{
-							name: "Signature",
-							value: player.signature ? player.signature : "..."
+							name: 'Signature',
+							value: player.signature ? player.signature : '...',
 						},
 						{
-							name: "Creation Date",
+							name: 'Creation Date',
 							value: player.registered,
-							inline: true
+							inline: true,
 						},
 						{
-							name: "Gender",
+							name: 'Gender',
 							value: player.gender == 'female' ? 'F' : 'M',
-							inline: true
-						}
-					]
-				}
+							inline: true,
+						},
+					],
+				},
 			});
 
 			if (player.hamlet) {
@@ -68,23 +68,23 @@ module.exports = (bot, msg, args) => {
 						title: `Hamlet of ${player.username}`,
 						url: 'https://www.loups-garous-en-ligne.com/hameau?tag=' + player.hamlet.tag,
 						image: {
-							url: 'https://www.loups-garous-en-ligne.com/' + player.hamlet.picture
-						}, 
+							url: 'https://www.loups-garous-en-ligne.com/' + player.hamlet.picture,
+						},
 						fields: [
 							{
 								name: 'Name',
-								value: `[${player.hamlet.tag}] ${player.hamlet.name}`
+								value: `[${player.hamlet.tag}] ${player.hamlet.name}`,
 							},
 							{
 								name: 'Members',
-								value: `${player.hamlet.membersCount}/100`
+								value: `${player.hamlet.membersCount}/100`,
 							},
 							{
 								name: 'Current rank',
-								value: player.hamlet.currentRank
-							}
-						]
-					}
+								value: player.hamlet.currentRank,
+							},
+						],
+					},
 				});
 			}
 		})
