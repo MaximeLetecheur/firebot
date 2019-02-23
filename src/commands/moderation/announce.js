@@ -15,7 +15,7 @@ module.exports = (bot, msg, args) => {
         .setTimestamp()
     msg.channel.send(embed);
     
-    if (msg.deletable) {
+    if (msg.deletable && !msg.deleted) {
         msg.delete();
     }
 };
