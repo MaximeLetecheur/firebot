@@ -3,6 +3,7 @@ const youtube = require('ytdl-core');
 function Jukebox(bot) {
 	this.bot = bot;
 	this.playing = false;
+	this.volume = 1;
 }
 
 Jukebox.prototype.play = function(track, msg) {
@@ -20,6 +21,7 @@ Jukebox.prototype.play = function(track, msg) {
 		track.dispatcher.on('error', (err) => {
 			return msg.channel.send('error: ' + err);
 		});
+		track.dispatcher.setVolume(1);
 
 		this.playing = true;
 		msg.channel.send(`:musical_note: Now playing: "${track.title}", Requested by: ${track.requestor}`);
@@ -30,5 +32,12 @@ Jukebox.prototype.play = function(track, msg) {
 		msg.channel.send(':x: Impossible de jouer cette vidéo youtube.');
 	}
 };
+
+Jukebox.prototype.setVolume = function(volume, msg) {
+	this.volume = volume/100;
+	if (this.bot.voiceConnections[msg.guild.id]) {
+		this.bot.voiceConnections[msg.guild.id].dispatcher.setVolume(this.volume);
+	}
+}
 
 module.exports = Jukebox;
