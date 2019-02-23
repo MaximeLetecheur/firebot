@@ -1,4 +1,3 @@
-const RichEmbed = require('discord.js').RichEmbed;
 const LgelAPI = require('../../services/lgel-api');
 
 module.exports = (bot, msg, args) => {
@@ -17,32 +16,76 @@ module.exports = (bot, msg, args) => {
 			}
 			const player = response.data;
 
-			const playerEmbed = new RichEmbed()
-				.setTitle(`Informations de ${player.username}`)
-				.setDescription(`
-					Joueur: ${player.username}
-					Niveau: ${player.level}
-					MDJ: Niveau ${player.mdj.level} (${player.mdj.totalpoints} points)
-					Titre: ${player.title}
-					Sexe: ${player.gender == 'female' ? 'F' : 'M'}
-					Signature: ${player.signature}
-					Date d'enregistrement: ${player.registered}
-					${player.playedGames} parties jouées (${player.points} points)
-					Premium : ${player.isPremium ? 'Oui' : 'Non'}
-				`);
-			msg.channel.send(playerEmbed);
+			msg.channel.send({
+				embed: {
+					title: `Informations de ${player.username}`,
+					fields: [
+						{
+							name: "Player",
+							value: player.username,
+							inline: true
+						},
+						{
+							name: "Premium ",
+							value: player.isPremium ? 'Yes' : 'No',
+							inline: true
+						},
+						{
+							name: "Level",
+							value: player.level,
+							inline: true
+						},
+						{
+							name: "Played Games",
+							value : `${player.playedGames} played games (${player.points} points)`,
+							inline: true
+						},
+						{
+							name: "Title",
+							value: player.title ? player.title : "..."
+						},
+						{
+							name: "Signature",
+							value: player.signature ? player.signature : "..."
+						},
+						{
+							name: "Creation Date",
+							value: player.registered,
+							inline: true
+						},
+						{
+							name: "Gender",
+							value: player.gender == 'female' ? 'F' : 'M',
+							inline: true
+						}
+					]
+				}
+			});
 
 			if (player.hamlet) {
-				const hamletEmbed = new RichEmbed()
-					.setTitle(`Hameau de ${player.username}`)
-					.setURL('https://www.loups-garous-en-ligne.com/hameau?tag=' + player.hamlet.tag)
-					.setImage('https://www.loups-garous-en-ligne.com/' + player.hamlet.picture)
-					.setDescription(`
-						Nom du hameau : [${player.hamlet.tag}] ${player.hamlet.name}
-						Nombre de membre : ${player.hamlet.membersCount}/100
-						Position du hameau : ${player.hamlet.currentRank}
-					`);
-				msg.channel.send(hamletEmbed);
+				msg.channel.send({
+					embed: {
+						title: `Hamlet of ${player.username}`,
+						url: 'https://www.loups-garous-en-ligne.com/hameau?tag=' + player.hamlet.tag,
+						image: {
+							url: 'https://www.loups-garous-en-ligne.com/' + player.hamlet.picture
+						}, 
+						fields: [
+							{
+								name: 'Name',
+								value: `[${player.hamlet.tag}] ${player.hamlet.name}`
+							},
+							{
+								name: 'Members',
+								value: `${player.hamlet.membersCount}/100`
+							},
+							{
+								name: 'Current rank',
+								value: player.hamlet.currentRank
+							}
+						]
+					}
+				});
 			}
 		})
 		.catch(error => {
