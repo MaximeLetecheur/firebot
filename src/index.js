@@ -34,13 +34,6 @@ Bot.prototype.loadActions = function() {
 				this.actions[key] = require(`./commands/${folder}/${item}`);
 			});
 		});
-	/*
-	const folderPath = './src/commands';
-	fs.readdirSync(folderPath).map((item) => {
-		const key = path.parse(item).name;
-		this.actions[key] = require(`./commands/${item}`);
-	});
-	*/
 };
 
 Bot.prototype.bindEvents = function() {

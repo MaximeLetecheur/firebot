@@ -1,5 +1,5 @@
 const RichEmbed = require('discord.js').RichEmbed;
-const LgelAPI = require('../services/lgel-api');
+const LgelAPI = require('../../services/lgel-api');
 
 module.exports = (bot, msg, args) => {
 	if (args.length != 1) {
