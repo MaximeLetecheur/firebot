@@ -4,6 +4,7 @@ const Client = require('discord.js').Client;
 const SongQueue = require('./songqueue');
 const Jukebox = require('./jukebox');
 const config = require('./config');
+const getdirsSync = require('./methods/getdirsSync');
 
 function Bot() {
 	this.discordClient = new Client({ autoReconnect: true });
@@ -26,14 +27,12 @@ Bot.prototype.disconnect = function() {
 
 Bot.prototype.loadActions = function() {
 	const commandsFolderPath = './src/commands';
-	fs.readdirSync(commandsFolderPath)
-		.filter(item => fs.lstatSync(`${commandsFolderPath}/${item}`).isDirectory())
-		.every(folder => {
-			fs.readdirSync(`${commandsFolderPath}/${folder}`).map((item) => {
-				const key = path.parse(`${commandsFolderPath}/${folder}/${item}`).name;
-				this.actions[key] = require(`./commands/${folder}/${item}`);
-			});
-		});
+	getdirsSync(commandsFolderPath).every(folder => {
+		fs.readdirSync(`${commandsFolderPath}/${folder}`).map((item) => {
+			const key = path.parse(`${commandsFolderPath}/${folder}/${item}`).name;
+			this.actions[key] = require(`./commands/${folder}/${item}`);
+		}	);
+	});
 };
 
 Bot.prototype.bindEvents = function() {
