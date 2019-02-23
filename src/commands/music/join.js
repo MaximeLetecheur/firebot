@@ -1,4 +1,4 @@
-module.exports = (bot, msg, args) => {
+module.exports = (bot, msg) => {
 	if (!msg.guild) return;
 
 	if (msg.member.voiceChannel) {

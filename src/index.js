@@ -31,7 +31,7 @@ Bot.prototype.loadActions = function() {
 		fs.readdirSync(`${commandsFolderPath}/${folder}`).map((item) => {
 			const key = path.parse(`${commandsFolderPath}/${folder}/${item}`).name;
 			this.actions[key] = require(`./commands/${folder}/${item}`);
-		}	);
+		});
 	});
 };
 

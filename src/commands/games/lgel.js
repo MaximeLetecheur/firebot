@@ -3,7 +3,7 @@ const LgelAPI = require('../../services/lgel-api');
 
 module.exports = (bot, msg, args) => {
 	if (args.length != 1) {
-		msg.channel.send(":x: Username of the player missing.");
+		msg.channel.send(':x: Username of the player missing.');
 		return;
 	}
 
