@@ -6,15 +6,15 @@ function Jukebox(bot) {
 }
 
 Jukebox.prototype.play = function(track, msg) {
-	if (this.bot.voiceConnection == null) return;
+	if (this.bot.voiceConnections[msg.guild.id] == null) return;
 
 	try {
-		track.dispatcher = this.bot.voiceConnection.playStream(youtube(track.youtubeURL, { audioonly: true }));
+		track.dispatcher = this.bot.voiceConnections[msg.guild.id].playStream(youtube(track.youtubeURL, { audioonly: true }));
 		track.dispatcher.on('end', () => {
 			this.playing = false;
-			this.bot.songQueue.removeFirst();
-			if (this.bot.songQueue.count() > 0) {
-				this.play(this.bot.songQueue.first(), msg);
+			this.bot.songQueue[msg.guild.id].removeFirst();
+			if (this.bot.songQueue[msg.guild.id].count() > 0) {
+				this.play(this.bot.songQueue[msg.guild.id].first(), msg);
 			}
 		});
 		track.dispatcher.on('error', (err) => {

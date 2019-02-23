@@ -8,10 +8,10 @@ const getdirsSync = require('./methods/getdirsSync');
 
 function Bot() {
 	this.discordClient = new Client({ autoReconnect: true });
-	this.songQueue = new SongQueue();
-	this.jukebox = new Jukebox(this);
 	this.actions = [];
-	this.voiceConnection = null;
+	this.jukebox = {};
+	this.songQueues = {};
+	this.voiceConnections = {};
 
 	this.loadActions();
 	this.bindEvents();
@@ -77,14 +77,15 @@ Bot.prototype.bindEvents = function() {
 			const cmd = args[0].substr(config.prefix.length);
 			args.shift();
 			if (cmd in this.actions) {
-				try {
+				// try {
 					this.actions[cmd](this, msg, args);
-				}
-				catch (error) {
-					console.error('An error has occured when using the command ' + cmd);
-					console.error('Command from the user: ' + msgContent);
-					console.error('Error: ' + error);
-				}
+				// }
+				// catch (error) {
+				// 	console.error('An error has occured when using the command ' + cmd);
+				// 	console.error('Command from the user: ' + msgContent);
+                //     console.error('Error: ' + error);
+                //     throw new Error(error);
+				// }
 			}
 		}
 	});

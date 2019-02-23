@@ -1,11 +1,11 @@
 module.exports = (bot, msg) => {
 	if (!msg.guild) return;
 
-	const titles = bot.songQueue.queue.map(track => `Title: ${track.title}, Requested by : ${track.requestor}`);
-	if (titles.length == 0) {
-		msg.channel.send('There are no songs in the queue.');
+	if (! (msg.guild.id in bot.songQueue)) {
+		msg.channel.send(':x: There are no songs in the queue.');
+		return;
 	}
-	else {
-		msg.channel.send(titles.join('\n'));
-	}
+
+	const titles = bot.songQueue[msg.guild.id].queue.map(track => `Title: ${track.title}, Requested by : ${track.requestor}`);
+	msg.channel.send(titles.join('\n'));
 };
