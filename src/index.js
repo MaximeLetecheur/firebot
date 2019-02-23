@@ -81,9 +81,9 @@ Bot.prototype.bindEvents = function() {
 					this.actions[cmd](this, msg, args);
 				}
 				catch (error) {
-					console.error('An error has occured when using the command' + cmd);
+					console.error('An error has occured when using the command ' + cmd);
 					console.error('Command from the user: ' + msgContent);
-					console.error('Error:' + error);
+					console.error('Error: ' + error);
 				}
 			}
 		}
