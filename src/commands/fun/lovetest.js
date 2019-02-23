@@ -11,9 +11,6 @@ module.exports = (bot, msg, args) => {
     const idUser1 = parseInt(msg.author.id, 10);
     const idUser2 = parseInt(msg.mentions.users.first().id, 10);
     const lovePourcent = (idUser1 + idUser2) % 100;
-    console.log(idUser1, idUser2);
-    console.log(idUser1 + idUser2);
-    console.log(lovePourcent);
 
     if (lovePourcent > 90) {
         msg.channel.send(":sparkling_heart: " + lovePourcent + "%");
