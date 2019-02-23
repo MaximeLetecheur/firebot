@@ -3,7 +3,7 @@ const youtube = require('ytdl-core');
 module.exports = (bot, msg, args) => {
 	if (!msg.guild) return;
 
-	if (youtube.validateURL(args[0])) {
+	if (! youtube.validateURL(args[0])) {
 		msg.channel.send(':x: This is not a valid Youtube URL.');
 		return;
 	}
