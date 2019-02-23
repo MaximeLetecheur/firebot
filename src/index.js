@@ -27,7 +27,7 @@ Bot.prototype.disconnect = function() {
 
 Bot.prototype.loadActions = function() {
 	const commandsFolderPath = './src/commands';
-	getdirsSync(commandsFolderPath).every(folder => {
+	getdirsSync(commandsFolderPath).forEach(folder => {
 		fs.readdirSync(`${commandsFolderPath}/${folder}`).map((item) => {
 			const key = path.parse(`${commandsFolderPath}/${folder}/${item}`).name;
 			this.actions[key] = require(`./commands/${folder}/${item}`);
