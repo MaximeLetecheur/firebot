@@ -1,4 +1,4 @@
-const parseMessage = require('../utils').parseMessage;
+const parseMessage = require('../../utils').parseMessage;
 const youtube = require('ytdl-core');
 
 module.exports = (bot, msg, args) => {

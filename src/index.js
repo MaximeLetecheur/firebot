@@ -25,10 +25,22 @@ Bot.prototype.disconnect = function() {
 };
 
 Bot.prototype.loadActions = function() {
-	fs.readdirSync('./src/commands').map((file) => {
-		const key = path.parse(file).name;
-		this.actions[key] = require(`./commands/${file}`);
+	const commandsFolderPath = './src/commands';
+	fs.readdirSync(commandsFolderPath)
+		.filter(item => fs.lstatSync(`${commandsFolderPath}/${item}`).isDirectory())
+		.every(folder => {
+			fs.readdirSync(`${commandsFolderPath}/${folder}`).map((item) => {
+				const key = path.parse(`${commandsFolderPath}/${folder}/${item}`).name;
+				this.actions[key] = require(`./commands/${folder}/${item}`);
+			});
+		});
+	/*
+	const folderPath = './src/commands';
+	fs.readdirSync(folderPath).map((item) => {
+		const key = path.parse(item).name;
+		this.actions[key] = require(`./commands/${item}`);
 	});
+	*/
 };
 
 Bot.prototype.bindEvents = function() {
