@@ -15,7 +15,6 @@ function Bot() {
 
 	this.loadActions();
 	this.bindEvents();
-	this.updatePresence();
 }
 
 Bot.prototype.connect = function() {
@@ -68,6 +67,7 @@ Bot.prototype.updatePresence = function() {
 Bot.prototype.bindEvents = function() {
 	this.discordClient.on('ready', () => {
 		console.log(`Logged in as ${this.discordClient.user.tag}!`);
+		this.updatePresence();
 	});
 
 	this.discordClient.on('error', (error) => {
