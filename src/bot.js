@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const Client = require('discord.js').Client;
-const SongQueue = require('./songqueue');
-const Jukebox = require('./jukebox');
 const config = require('./config');
 const getdirsSync = require('./methods/getdirsSync');
 
@@ -38,31 +36,29 @@ Bot.prototype.loadActions = function() {
 Bot.prototype.updatePresence = function() {
 	let cycle = 0;
 	setInterval(() => {
-		let content = "";
+		let content = '';
 		switch (cycle) {
-			case 0:
-				let servers = this.discordClient.guilds.array().length;
-				content = servers + " servers online!";
-				break;
-			case 1:
-				let users = this.discordClient.users.array().length;
-				content = users + " users online!";
-				break;
-			case 2:
-				let uptime = this.discordClient.uptime;
-				let m = Math.floor((uptime / 1000/60) % 60);
-				m = m < 10 ? "0" + m : m;
-				let h = Math.floor((uptime / 1000/60/60) % 60);
-				h = h < 10 ? "0" + h : h;
-				let j = Math.floor((uptime / 1000/60/60/60) % 24);
-				content = j + "J " + h + "h" + m + " of uptime!";
+		case 0:
+			content = this.discordClient.guilds.array().length + ' servers online!';
+			break;
+		case 1:
+			content = this.discordClient.users.array().length + ' users online!';
+			break;
+		case 2:
+			const uptime = this.discordClient.uptime;
+			let m = Math.floor((uptime / 1000 / 60) % 60);
+			m = m < 10 ? '0' + m : m;
+			let h = Math.floor((uptime / 1000 / 60 / 60) % 60);
+			h = h < 10 ? '0' + h : h;
+			const j = Math.floor((uptime / 1000 / 60 / 60 / 60) % 24);
+			content = j + 'J ' + h + 'h' + m + ' of uptime!';
 		}
 		this.discordClient.user.setActivity(content);
 		if (cycle++ == 2) {
 			cycle = 0;
 		}
 	}, 2500);
-}
+};
 
 Bot.prototype.bindEvents = function() {
 	this.discordClient.on('ready', () => {
@@ -108,13 +104,13 @@ Bot.prototype.bindEvents = function() {
 			args.shift();
 			if (cmd in this.actions) {
 				// try {
-					this.actions[cmd](this, msg, args);
+				this.actions[cmd](this, msg, args);
 				// }
 				// catch (error) {
 				// 	console.error('An error has occured when using the command ' + cmd);
 				// 	console.error('Command from the user: ' + msgContent);
-                //     console.error('Error: ' + error);
-                //     throw new Error(error);
+				//     console.error('Error: ' + error);
+				//     throw new Error(error);
 				// }
 			}
 		}

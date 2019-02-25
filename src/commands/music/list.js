@@ -1,7 +1,7 @@
 module.exports = (bot, msg) => {
 	if (!msg.guild) return;
 
-	if (! (msg.guild.id in bot.songQueue)) {
+	if (!(msg.guild.id in bot.songQueue)) {
 		msg.channel.send(':x: There are no songs in the queue.');
 		return;
 	}

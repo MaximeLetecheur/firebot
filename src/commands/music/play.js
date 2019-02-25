@@ -11,7 +11,7 @@ module.exports = async (bot, msg, args) => {
 		return;
 	}
 
-	if (! (msg.guild.id in bot.voiceConnections)) {
+	if (!(msg.guild.id in bot.voiceConnections)) {
 		await join(bot, msg);
 	}
 

@@ -1,7 +1,7 @@
 module.exports = (bot, msg) => {
 	if (!msg.guild) return;
 
-	if (! (msg.guild.id in bot.voiceConnections)) {
+	if (!(msg.guild.id in bot.voiceConnections)) {
 		msg.channel.send(':x: I am not connected to any channel on this server.');
 		return;
 	}

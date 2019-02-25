@@ -1,13 +1,13 @@
 module.exports = async function(bot, msg) {
-	return new Promise(function (resolve, reject) {
+	return new Promise(function(resolve, reject) {
 		if (!msg.guild) return;
-		
+
 		if (msg.guild.id in bot.voiceConnections) {
 			msg.channel.send(':x: I am already connected to a channel.');
 			resolve();
 			return;
 		}
-		
+
 		if (msg.member.voiceChannel) {
 			msg.member.voiceChannel.join()
 				.then(voiceConnection => {
