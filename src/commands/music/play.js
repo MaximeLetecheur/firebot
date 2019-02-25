@@ -19,8 +19,8 @@ module.exports = async (bot, msg, args) => {
 	youtube.getInfo(youtubeURL, (err, info) => {
 		if (err) throw err;
 
-		const SECONDS_IN_TEN_MINUTES = 60 * 10;
-		if (info.length_seconds <= SECONDS_IN_TEN_MINUTES) {
+		const SECONDS_IN_THREE_HOURS = 10800;
+		if (info.length_seconds <= SECONDS_IN_THREE_HOURS) {
 			if (!(msg.guild.id in bot.songQueues)) {
 				bot.songQueues[msg.guild.id] = new SongQueue();
 			}
@@ -44,7 +44,7 @@ module.exports = async (bot, msg, args) => {
 			}
 		}
 		else {
-			msg.channel.send(':x: The length of the song can not be greater than 10 minutes.');
+			msg.channel.send(':x: The length of the song can not be greater than 3 hours.');
 		}
 	});
 };
