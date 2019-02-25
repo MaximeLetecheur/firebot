@@ -1,3 +1,6 @@
+const Jukebox = require('../../jukebox');
+const SongQueue = require('../../songqueue');
+
 module.exports = async function(bot, msg) {
 	return new Promise(function(resolve, reject) {
 		if (!msg.guild) return;
@@ -12,6 +15,8 @@ module.exports = async function(bot, msg) {
 			msg.member.voiceChannel.join()
 				.then(voiceConnection => {
 					bot.voiceConnections[msg.guild.id] = voiceConnection;
+					bot.jukebox[msg.guild.id] = new Jukebox(bot);
+					bot.songQueues[msg.guild.id] = new SongQueue();
 					msg.channel.send(':white_check_mark: I can play music!');
 					resolve();
 				})

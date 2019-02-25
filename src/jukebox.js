@@ -35,7 +35,7 @@ Jukebox.prototype.play = function(track, msg) {
 
 Jukebox.prototype.setVolume = function(volume, msg) {
 	this.volume = volume / 100;
-	if (this.bot.voiceConnections[msg.guild.id]) {
+	if (this.bot.voiceConnections[msg.guild.id] && this.bot.voiceConnections[msg.guild.id].dispatcher) {
 		this.bot.voiceConnections[msg.guild.id].dispatcher.setVolume(this.volume);
 	}
 };

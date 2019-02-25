@@ -11,7 +11,7 @@ module.exports = (bot, msg, args) => {
 	lgel.findPlayer(username)
 		.then(response => {
 			if (response.data.error) {
-				msg.channel.send(':x: The player ' + username + ' does not exist.');
+				msg.channel.send(':x: The player `' + username + '` does not exist.');
 				return;
 			}
 			const player = response.data;
@@ -90,6 +90,6 @@ module.exports = (bot, msg, args) => {
 		})
 		.catch(error => {
 			console.error(error);
-			msg.channel.send(':x: An error occured while requesting this player on LGEL.');
+			msg.channel.send(':x: A server error occured while requesting the player `' + username + '` on LGEL.');
 		});
 };

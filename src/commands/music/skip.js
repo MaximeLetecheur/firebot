@@ -1,8 +1,8 @@
 module.exports = (bot, msg) => {
 	if (!msg.guild) return;
 
-	if (!(msg.guild.id in bot.songQueues)) {
-		msg.channel.send(':x: I am not playng any song right now.');
+	if (!(msg.guild.id in bot.songQueues) || bot.songQueues[msg.guild.id].count() == 0) {
+		msg.channel.send(':x: There is no songs in the queue.');
 		return;
 	}
 
@@ -11,7 +11,7 @@ module.exports = (bot, msg) => {
 		track.dispatcher.end();
 		msg.channel.send(':rewind: Skipping...');
 
-		if (bot.songQueues[msg.guild.id].count()	== 0) {
+		if (bot.songQueues[msg.guild.id].count() == 0) {
 			delete bot.songQueues[msg.guild.id];
 		}
 	}
