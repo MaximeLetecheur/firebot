@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
-const Client = require('discord.js').Client;
+const LgelAPI = require('./services/lgel-api');
+const { Client, TextChannel } = require('discord.js');
 const Sequelize = require('sequelize');
+const TurndownService = require('turndown');
 const config = require('./config');
 const getdirsSync = require('./methods/getdirsSync');
 
@@ -13,8 +15,11 @@ function Bot() {
 		logging: false,
 		operatorsAliases: false,
 		// SQLite only
-		storage: 'database/database.sqlite',
+		storage: 'src/database/database.sqlite',
 	});
+	this.db.Lgelnews = this.db.import('database/models/Lgelnews');
+	this.db.User = this.db.import('database/models/User');
+	this.db.sync();
 
 	this.actions = [];
 
@@ -75,6 +80,7 @@ Bot.prototype.bindEvents = function() {
 	this.discordClient.on('ready', () => {
 		console.log(`Logged in as ${this.discordClient.user.tag}!`);
 		this.updatePresence();
+		this.doTasks();
 	});
 
 	this.discordClient.on('error', (error) => {
@@ -126,6 +132,43 @@ Bot.prototype.bindEvents = function() {
 			}
 		}
 	});
+};
+
+Bot.prototype.doTasks = async function() {
+	setInterval(() => {
+		new LgelAPI().getMiniNews().then(response => {
+			const mininews = response.data[0];
+
+			const news = this.db.Lgelnews.findOne({
+				where: { id: mininews.id },
+			}).then(n => {
+				if(!n) {
+					this.db.Lgelnews.create({
+						id: mininews.id,
+						content: mininews.contenu,
+					});
+
+					this.discordClient.guilds.forEach(guild => {
+						if (guild.available) {
+							const channel = guild.channels.find(c => c.name === 'log');
+							if (channel) {
+								const turndownService = new TurndownService();
+								const content = turndownService.turndown(mininews.contenu);
+
+								channel.send({
+									embed: {
+										title: 'Loups-Garous-En-Ligne : Mini-news !',
+										description: content,
+									},
+									timestamp: new Date(),
+								});
+							}
+						}
+					});
+				}
+			});
+		});
+	}, 5000);
 };
 
 module.exports = Bot;
