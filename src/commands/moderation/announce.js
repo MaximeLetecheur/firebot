@@ -1,6 +1,30 @@
+const config = require('../../config');
+
 module.exports = (bot, msg, args) => {
 	if (args.length == 0) {
 		msg.channel.send(':x: Announcement missing.');
+		return;
+	}
+
+	console.log(msg.author.id);
+	console.log(config.userid.bot_owner);
+	console.log(msg.author.id === config.userid.bot_owner);
+
+	/**
+	 * The user can't send announcement if :
+	 * - He doesn't have any roles in this guild;
+	 * - He doesn't have the role "maire" or "adjoint";
+	 * - He is not the bot owner.
+	 */
+	if (!(
+		typeof msg.author.roles === 'undefined' ||
+		(
+			!(config.roles.adjoint in msg.author.roles) &&
+			!(config.roles.maire in msg.author.roles)
+		) ||
+		msg.author.id !== config.userid.bot_owner
+	)) {
+		msg.channel.send(':x: You do not have the permission to do a announcement.');
 		return;
 	}
 
@@ -13,6 +37,8 @@ module.exports = (bot, msg, args) => {
 			description: announce,
 			timestamp: new Date(),
 		},
+	}).then(postedMessage => {
+		postedMessage.react('👀');
 	});
 
 	if (msg.deletable && !msg.deleted) {

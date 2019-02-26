@@ -1,4 +1,11 @@
 module.exports = {
 	'token': '',
 	'prefix': '$',
+	'userid': {
+		'bot_owner': '',
+	},
+	'roles': {
+		'maire': '',
+		'adjoint': '',
+	},
 };
