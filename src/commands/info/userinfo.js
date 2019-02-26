@@ -6,8 +6,6 @@ module.exports = (bot, msg, args) => {
 
 	const user = (args.length == 0) ? msg.author : msg.mentions.users.first();
 
-	console.log(user);
-
 	const fields = [];
 	fields.push({
 		name: 'Name',

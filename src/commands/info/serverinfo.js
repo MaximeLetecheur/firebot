@@ -1,6 +1,5 @@
 module.exports = (bot, msg) => {
 	const guild = msg.guild;
-	console.log(guild);
 
 	msg.channel.send({
 		embed: {

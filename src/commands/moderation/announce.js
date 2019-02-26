@@ -6,10 +6,6 @@ module.exports = (bot, msg, args) => {
 		return;
 	}
 
-	console.log(msg.author.id);
-	console.log(config.userid.bot_owner);
-	console.log(msg.author.id === config.userid.bot_owner);
-
 	/**
 	 * The user can't send announcement if :
 	 * - He doesn't have any roles in this guild;
