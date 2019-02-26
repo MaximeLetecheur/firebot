@@ -150,7 +150,7 @@ Bot.prototype.doTasks = async function() {
 
 					this.discordClient.guilds.forEach(guild => {
 						if (guild.available) {
-							const channel = guild.channels.find(c => c.name === 'log');
+							const channel = guild.channels.find(c => c.name === 'lgel-mininews');
 							if (channel) {
 								const turndownService = new TurndownService();
 								const content = turndownService.turndown(mininews.contenu);
