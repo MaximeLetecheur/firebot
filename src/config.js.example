@@ -8,4 +8,11 @@ module.exports = {
 		'maire': '',
 		'adjoint': '',
 	},
+	'db': {
+		'dialect': 'sqlite',
+		'host': '',
+		'name': '',
+		'username': '',
+		'password': '',
+	},
 };

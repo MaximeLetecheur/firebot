@@ -1,12 +1,23 @@
 const fs = require('fs');
 const path = require('path');
 const Client = require('discord.js').Client;
+const Sequelize = require('sequelize');
 const config = require('./config');
 const getdirsSync = require('./methods/getdirsSync');
 
 function Bot() {
 	this.discordClient = new Client({ autoReconnect: true });
+	this.db = new Sequelize(config.db.name, config.db.user, config.db.password, {
+		host: config.db.host,
+		dialect: config.db.dialect,
+		logging: false,
+		operatorsAliases: false,
+		// SQLite only
+		storage: 'database/database.sqlite',
+	});
+
 	this.actions = [];
+
 	this.jukebox = {};
 	this.songQueues = {};
 	this.voiceConnections = {};
