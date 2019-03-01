@@ -7,8 +7,8 @@ module.exports = (bot, msg) => {
 	}
 
 	const connection = bot.voiceConnections[msg.guild.id];
-	msg.channel.send(`:mute: Disconnecting from channel: ${connection.channel.name}`);
-	connection.disconnect();
+	const channelName = connection.channel.name;
+
 	delete bot.voiceConnections[msg.guild.id];
 	if (msg.guild.id in bot.songQueues) {
 		delete bot.songQueues[msg.guild.id];
@@ -16,4 +16,7 @@ module.exports = (bot, msg) => {
 	if (msg.guild.id in bot.jukebox) {
 		delete bot.jukebox[msg.guild.id];
 	}
+	connection.disconnect();
+
+	msg.channel.send(`:mute: Disconnecting from channel: ${channelName}`);
 };
