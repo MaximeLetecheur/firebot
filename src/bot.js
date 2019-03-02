@@ -89,8 +89,7 @@ Bot.prototype.bindEvents = function() {
 		const msgContent = msg.content.trim();
 		if (msgContent.startsWith(config.prefix)) {
 			const args = msgContent.split(' ');
-			const cmd = args[0].substr(config.prefix.length);
-			args.shift();
+			const cmd = args.shift().substr(config.prefix.length);
 			if (cmd in this.actions) {
 				if (this.actions[cmd].config.enabled) {
 					try {
