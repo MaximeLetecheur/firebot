@@ -15,73 +15,72 @@ module.exports = (bot, msg, args) => {
 				return;
 			}
 			const player = response.data;
+			const pointsPerGame = (player.points / player.playedGames).toFixed(2);
 
 			msg.channel.send({
 				embed: {
-					title: `Informations de ${player.username}`,
+					title: `__Informations et statistiques de **${player.username}**__`,
 					fields: [
 						{
-							name: 'Player',
-							value: player.username,
+							name: 'Joueur',
+							value: `${player.username} (Niveau ${player.level}, ${player.gender == 'female' ? 'Femme' : 'Homme'}, ${player.isPremium ? 'Premium' : 'Non-premium'})`,
+						},
+						{
+							name: 'Date de création',
+							value: player.registered,
+						},
+						{
+							name: 'Parties jouées',
+							value : `**${player.playedGames}** parties jouées / **${player.points}** points (**${pointsPerGame}** points par partie)`,
 							inline: true,
 						},
 						{
-							name: 'Premium ',
-							value: player.isPremium ? 'Yes' : 'No',
-							inline: true,
-						},
-						{
-							name: 'Level',
-							value: player.level,
-							inline: true,
-						},
-						{
-							name: 'Played Games',
-							value : `${player.playedGames} played games (${player.points} points)`,
-							inline: true,
-						},
-						{
-							name: 'Title',
-							value: player.title ? player.title : '...',
+							name: 'Titre',
+							value: `"*${player.username}, ${player.title ? player.title : '...'}*"`,
 						},
 						{
 							name: 'Signature',
-							value: player.signature ? player.signature : '...',
-						},
-						{
-							name: 'Creation Date',
-							value: player.registered,
-							inline: true,
-						},
-						{
-							name: 'Gender',
-							value: player.gender == 'female' ? 'F' : 'M',
-							inline: true,
+							value: `"*${player.signature ? player.signature : '...'}*"`,
 						},
 					],
 				},
 			});
 
+			function formatRank(rank) {
+				if (rank == 1) return '1er';
+				else return rank + 'ème';
+			}
+
 			if (player.hamlet) {
 				msg.channel.send({
 					embed: {
-						title: `Hamlet of ${player.username}`,
+						title: `__Hammeau de **${player.username}**__`,
 						url: 'https://www.loups-garous-en-ligne.com/hameau?tag=' + player.hamlet.tag,
 						image: {
-							url: 'https://www.loups-garous-en-ligne.com/' + player.hamlet.picture,
+							url: 'https://www.loups-garous-en-ligne.com' + player.hamlet.picture,
 						},
 						fields: [
 							{
-								name: 'Name',
+								name: 'Nom',
 								value: `[${player.hamlet.tag}] ${player.hamlet.name}`,
 							},
 							{
-								name: 'Members',
-								value: `${player.hamlet.membersCount}/100`,
+								name: 'Membres',
+								value: `**${player.hamlet.membersCount}** personnes sont présents dans ce hameau.`,
 							},
 							{
-								name: 'Current rank',
-								value: player.hamlet.currentRank,
+								name: 'Points',
+								value: `**${player.hamlet.points}** points ont été réalisés par les [${player.hamlet.tag}] ces 30 derniers jours.`,
+							},
+							{
+								name: 'Position actuelle',
+								value: formatRank(player.hamlet.currentRank),
+								inline: true,
+							},
+							{
+								name: 'Meilleure position',
+								value: formatRank(player.hamlet.bestRank),
+								inline: true,
 							},
 						],
 					},
