@@ -7,31 +7,28 @@ exports.exec = function(bot) {
 
 		bot.db.Lgelnews.findOne({
 			where: { id: mininews.id },
-		}).then(n => {
-			if(!n) {
-				bot.db.Lgelnews.create({
-					id: mininews.id,
-					content: mininews.contenu,
-				});
+		}).then(mininewsRecord => {
+			if(mininewsRecord) return;
 
-				bot.discordClient.guilds.forEach(guild => {
-					if (guild.available) {
-						const channel = guild.channels.find(c => c.name === 'lgel-mininews');
-						if (channel) {
-							const turndownService = new TurndownService();
-							const content = turndownService.turndown(mininews.contenu);
+			bot.db.Lgelnews.create({
+				id: mininews.id,
+				content: mininews.contenu,
+			});
 
-							channel.send({
-								embed: {
-									title: 'Loups-Garous-En-Ligne : Mini-news !',
-									description: content,
-								},
-								timestamp: new Date(),
-							});
-						}
-					}
+			bot.discordClient.guilds.forEach(guild => {
+				if (!guild.available) return;
+
+				const channel = guild.channels.find(c => c.name === 'lgel-mininews');
+				if (!channel) return;
+
+				channel.send({
+					embed: {
+						title: 'Loups-Garous-En-Ligne : Mini-news !',
+						description: new TurndownService().turndown(mininews.contenu),
+					},
+					timestamp: new Date(),
 				});
-			}
+			});
 		});
 	});
 };
