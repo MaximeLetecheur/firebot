@@ -1,21 +1,20 @@
 const LgelAPI = require('../services/lgel-api');
 const TurndownService = require('turndown');
 
-exports.default = function() {
+exports.exec = function(bot) {
 	new LgelAPI().getMiniNews().then(response => {
-		console.log('Fetched Lgel MiniNews');
 		const mininews = response.data[0];
 
-		this.db.Lgelnews.findOne({
+		bot.db.Lgelnews.findOne({
 			where: { id: mininews.id },
 		}).then(n => {
 			if(!n) {
-				this.db.Lgelnews.create({
+				bot.db.Lgelnews.create({
 					id: mininews.id,
 					content: mininews.contenu,
 				});
 
-				this.discordClient.guilds.forEach(guild => {
+				bot.discordClient.guilds.forEach(guild => {
 					if (guild.available) {
 						const channel = guild.channels.find(c => c.name === 'lgel-mininews');
 						if (channel) {
@@ -35,4 +34,9 @@ exports.default = function() {
 			}
 		});
 	});
+};
+
+exports.config = {
+	enabled: true,
+	time: 15000,
 };

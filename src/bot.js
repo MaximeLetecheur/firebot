@@ -48,42 +48,15 @@ Bot.prototype.loadActions = function() {
 	});
 };
 
-Bot.prototype.updatePresence = function() {
-	let cycle = 0;
-	setInterval(() => {
-		let content = '';
-		switch (cycle) {
-		case 0:
-			content = this.discordClient.guilds.array().length + ' servers online!';
-			break;
-		case 1:
-			content = this.discordClient.users.array().length + ' users online!';
-			break;
-		case 2:
-			const uptime = this.discordClient.uptime;
-			let m = Math.floor((uptime / 1000 / 60) % 60);
-			m = m < 10 ? '0' + m : m;
-			let h = Math.floor((uptime / 1000 / 60 / 60) % 60);
-			h = h < 10 ? '0' + h : h;
-			const j = Math.floor((uptime / 1000 / 60 / 60 / 60) % 24);
-			content = j + 'J ' + h + 'h' + m + ' of uptime!';
-		}
-		this.discordClient.user.setActivity(content);
-		if (cycle++ == 2) {
-			cycle = 0;
-		}
-	}, 2500);
-};
-
 Bot.prototype.bindEvents = function() {
 	this.discordClient.on('ready', () => {
 		console.log(`Logged in as ${this.discordClient.user.tag}!`);
-		this.updatePresence();
 		this.doTasks();
 	});
 
 	this.discordClient.on('error', (error) => {
 		console.error(`ERROR: ${error.message}!`);
+		console.error(`${error.stack}!`);
 	});
 
 	this.discordClient.on('disconnect', (err) => {
@@ -135,12 +108,13 @@ Bot.prototype.bindEvents = function() {
 
 Bot.prototype.doTasks = async function() {
 	fs.readdirSync('src/tasks').map((file) => {
-		const key = path.parse(`src/tasks/${file}`).name;
-		this.tasks[key] = require(`./tasks/${file}`);
+		this.tasks.push(require(`./tasks/${file}`));
 	});
 
 	for(const task of this.tasks) {
-		setInterval(task, 5000);
+		if (task.config.enabled) {
+			setInterval(() => task.exec(this), task.config.time);
+		}
 	}
 };
 
