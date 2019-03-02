@@ -1,5 +1,68 @@
 const LgelAPI = require('../../services/lgel-api');
 
+function getStatsFields(player) {
+	const statsFields = [];
+	const pointsPerGame = (player.points / player.playedGames).toFixed(2);
+
+	statsFields.push({
+		name: ':raising_hand: Joueur',
+		value: `${player.username} (Niveau ${player.level}, ${player.gender == 'female' ? 'Femme' : 'Homme'}, ${player.isPremium ? 'Premium' : 'Non-premium'}), Compte créé le ${player.registered}`,
+	});
+	if (player.wedding.married) {
+		statsFields.push({
+			name: `:heart: Marié${player.gender == 'female' ? 'e' : ''} à **${player.wedding.partner}**`,
+			value: `Depuis le ${player.wedding.date}`,
+		});
+	}
+	statsFields.push({
+		name: ':game_die: Parties jouées',
+		value : `**${player.playedGames}** parties jouées / **${player.points}** points (**${pointsPerGame}** points par partie)`,
+		inline: true,
+	},
+	{
+		name: ':crown: Titre',
+		value: `"*${player.username}, ${player.title ? player.title : '...'}*"`,
+	},
+	{
+		name: ':pen_ballpoint: Signature',
+		value: `"*${player.signature ? player.signature : '...'}*"`,
+	});
+	return statsFields;
+}
+
+function formatRank(rank) {
+	if (rank === 1) return '1er';
+	else return rank + 'ème';
+}
+
+function getHamletFields(player) {
+	const hamletFields = [
+		{
+			name: 'Nom',
+			value: `[${player.hamlet.tag}] ${player.hamlet.name}`,
+		},
+		{
+			name: ':busts_in_silhouette: Membres',
+			value: `**${player.hamlet.membersCount}** personnes sont présentes dans ce hameau.`,
+		},
+		{
+			name: ':gem: Points',
+			value: `**${player.hamlet.points}** points ont été réalisés par les [${player.hamlet.tag}] ces 30 derniers jours.`,
+		},
+		{
+			name: ':arrow_upper_right: Position actuelle',
+			value: formatRank(player.hamlet.currentRank),
+			inline: true,
+		},
+		{
+			name: ':trophy: Meilleure position',
+			value: formatRank(player.hamlet.bestRank),
+			inline: true,
+		},
+	];
+	return hamletFields;
+}
+
 module.exports = (bot, msg, args) => {
 	if (args.length != 1) {
 		msg.channel.send(':x: Username of the player missing.');
@@ -14,75 +77,22 @@ module.exports = (bot, msg, args) => {
 				msg.channel.send(':x: The player ' + username + ' does not exist.');
 				return;
 			}
-			const player = response.data;
-			const pointsPerGame = (player.points / player.playedGames).toFixed(2);
 
+			const player = response.data;
 			msg.channel.send({
 				embed: {
 					title: `__Informations et statistiques de **${player.username}**__`,
-					fields: [
-						{
-							name: 'Joueur',
-							value: `${player.username} (Niveau ${player.level}, ${player.gender == 'female' ? 'Femme' : 'Homme'}, ${player.isPremium ? 'Premium' : 'Non-premium'})`,
-						},
-						{
-							name: 'Date de création',
-							value: player.registered,
-						},
-						{
-							name: 'Parties jouées',
-							value : `**${player.playedGames}** parties jouées / **${player.points}** points (**${pointsPerGame}** points par partie)`,
-							inline: true,
-						},
-						{
-							name: 'Titre',
-							value: `"*${player.username}, ${player.title ? player.title : '...'}*"`,
-						},
-						{
-							name: 'Signature',
-							value: `"*${player.signature ? player.signature : '...'}*"`,
-						},
-					],
+					fields: getStatsFields(player),
 				},
 			});
-
-			function formatRank(rank) {
-				if (rank == 1) return '1er';
-				else return rank + 'ème';
-			}
-
 			if (player.hamlet) {
 				msg.channel.send({
 					embed: {
 						title: `__Hammeau de **${player.username}**__`,
-						url: 'https://www.loups-garous-en-ligne.com/hameau?tag=' + player.hamlet.tag,
 						image: {
 							url: 'https://www.loups-garous-en-ligne.com' + player.hamlet.picture,
 						},
-						fields: [
-							{
-								name: 'Nom',
-								value: `[${player.hamlet.tag}] ${player.hamlet.name}`,
-							},
-							{
-								name: 'Membres',
-								value: `**${player.hamlet.membersCount}** personnes sont présents dans ce hameau.`,
-							},
-							{
-								name: 'Points',
-								value: `**${player.hamlet.points}** points ont été réalisés par les [${player.hamlet.tag}] ces 30 derniers jours.`,
-							},
-							{
-								name: 'Position actuelle',
-								value: formatRank(player.hamlet.currentRank),
-								inline: true,
-							},
-							{
-								name: 'Meilleure position',
-								value: formatRank(player.hamlet.bestRank),
-								inline: true,
-							},
-						],
+						fields: getHamletFields(player),
 					},
 				});
 			}
