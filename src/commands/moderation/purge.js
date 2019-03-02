@@ -1,4 +1,4 @@
-module.exports = (bot, msg, args) => {
+exports.exec = (bot, msg, args) => {
 	if (!msg.guild) return;
 
 	if (args.length > 1) {
@@ -38,4 +38,8 @@ module.exports = (bot, msg, args) => {
 			console.error('Error while doing Purge');
 			console.error(err);
 		});
+};
+
+exports.config = {
+	enabled: true,
 };

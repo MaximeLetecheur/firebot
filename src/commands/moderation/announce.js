@@ -1,6 +1,6 @@
 const config = require('../../config');
 
-module.exports = (bot, msg, args) => {
+exports.exec = (bot, msg, args) => {
 	if (args.length == 0) {
 		msg.channel.send(':x: Announcement missing.');
 		return;
@@ -40,4 +40,8 @@ module.exports = (bot, msg, args) => {
 	if (msg.deletable && !msg.deleted) {
 		msg.delete();
 	}
+};
+
+exports.config = {
+	enabled: true,
 };

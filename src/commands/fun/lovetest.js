@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+exports.exec = (bot, msg) => {
 	if (!msg.guild) return;
 
 	if (typeof msg.mentions === 'undefined' || typeof msg.mentions.users === 'undefined' || msg.mentions.users.array().length != 1) {
@@ -51,4 +51,8 @@ module.exports = (bot, msg) => {
 	else {
 		msg.channel.send(':skull_crossbones: ' + lovePourcent + '%');
 	}
+};
+
+exports.config = {
+	enabled: true,
 };

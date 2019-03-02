@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+exports.exec = (bot, msg) => {
 	if (!msg.guild) return;
 
 	if (!(msg.guild.id in bot.voiceConnections)) {
@@ -19,4 +19,8 @@ module.exports = (bot, msg) => {
 	connection.disconnect();
 
 	msg.channel.send(`:mute: Disconnecting from channel: ${channelName}`);
+};
+
+exports.config = {
+	enabled: true,
 };

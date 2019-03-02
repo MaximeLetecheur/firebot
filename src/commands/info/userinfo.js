@@ -1,4 +1,4 @@
-module.exports = (bot, msg, args) => {
+exports.exec = (bot, msg, args) => {
 	if (args.length > 1) {
 		msg.channel.send(':x: Wrong use of this command.');
 		return;
@@ -26,4 +26,8 @@ module.exports = (bot, msg, args) => {
 			fields: fields,
 		},
 	});
+};
+
+exports.config = {
+	enabled: true,
 };

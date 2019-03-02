@@ -3,7 +3,7 @@ const SongQueue = require('../../songqueue');
 const Jukebox = require('../../jukebox');
 const join = require('./join');
 
-module.exports = async (bot, msg, args) => {
+exports.exec = async (bot, msg, args) => {
 	if (!msg.guild) return;
 
 	if (!youtube.validateURL(args[0])) {
@@ -47,4 +47,8 @@ module.exports = async (bot, msg, args) => {
 			msg.channel.send(':x: The length of the song can not be greater than 3 hours.');
 		}
 	});
+};
+
+exports.config = {
+	enabled: true,
 };

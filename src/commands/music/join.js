@@ -1,7 +1,7 @@
 const Jukebox = require('../../jukebox');
 const SongQueue = require('../../songqueue');
 
-module.exports = async function(bot, msg) {
+exports.exec = async function(bot, msg) {
 	return new Promise(function(resolve, reject) {
 		if (!msg.guild) return;
 
@@ -28,4 +28,8 @@ module.exports = async function(bot, msg) {
 			return;
 		}
 	});
+};
+
+exports.config = {
+	enabled: true,
 };

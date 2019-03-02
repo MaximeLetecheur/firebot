@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+exports.exec = (bot, msg) => {
 	if (!msg.guild) return;
 
 	if (!(msg.guild.id in bot.songQueues) || bot.songQueues[msg.guild.id].count() == 0) {
@@ -15,4 +15,8 @@ module.exports = (bot, msg) => {
 			delete bot.songQueues[msg.guild.id];
 		}
 	}
+};
+
+exports.config = {
+	enabled: true,
 };

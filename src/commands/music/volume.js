@@ -1,4 +1,4 @@
-module.exports = (bot, msg, args) => {
+exports.exec = (bot, msg, args) => {
 	if (!msg.guild) return;
 
 	if (!(msg.guild.id in bot.voiceConnections) || !(msg.guild.id in bot.jukebox)) {
@@ -21,4 +21,8 @@ module.exports = (bot, msg, args) => {
 
 	bot.jukebox[msg.guild.id].setVolume(volume, msg);
 	msg.channel.send(':speaker: Volume has been set to ' + volume);
+};
+
+exports.config = {
+	enabled: true,
 };

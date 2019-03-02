@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+exports.exec = (bot, msg) => {
 	msg.channel.send(`
 Commands available:
  - help
@@ -9,4 +9,8 @@ Commands available:
  - list
  - purge
     `);
+};
+
+exports.config = {
+	enabled: true,
 };

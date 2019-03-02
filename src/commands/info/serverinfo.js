@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+exports.exec = (bot, msg) => {
 	const guild = msg.guild;
 
 	msg.channel.send({
@@ -52,4 +52,8 @@ module.exports = (bot, msg) => {
 			},
 		},
 	});
+};
+
+exports.config = {
+	enabled: true,
 };

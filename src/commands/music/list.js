@@ -1,4 +1,4 @@
-module.exports = (bot, msg) => {
+exports.exec = (bot, msg) => {
 	if (!msg.guild) return;
 
 	if (!(msg.guild.id in bot.songQueues) || bot.songQueues[msg.guild.id].count() == 0) {
@@ -8,4 +8,8 @@ module.exports = (bot, msg) => {
 
 	const titles = bot.songQueues[msg.guild.id].queue.map(track => `Title: ${track.title}, Requested by : ${track.requestor}`);
 	msg.channel.send(titles.join('\n'));
+};
+
+exports.config = {
+	enabled: true,
 };

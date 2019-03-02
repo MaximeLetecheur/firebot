@@ -94,7 +94,7 @@ function getHamletFields(player) {
 	return hamletFields;
 }
 
-module.exports = (bot, msg, args) => {
+exports.exec = (bot, msg, args) => {
 	if (args.length != 1) {
 		msg.channel.send(':x: Username of the player missing.');
 		return;
@@ -134,4 +134,8 @@ module.exports = (bot, msg, args) => {
 			console.error(error);
 			msg.channel.send(':x: A server error occured while requesting the player ' + username + ' on LGEL.');
 		});
+};
+
+exports.config = {
+	enabled: true,
 };
