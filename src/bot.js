@@ -119,15 +119,15 @@ Bot.prototype.bindEvents = function() {
 			const cmd = args[0].substr(config.prefix.length);
 			args.shift();
 			if (cmd in this.actions) {
-				// try {
-				this.actions[cmd](this, msg, args);
-				// }
-				// catch (error) {
-				// 	console.error('An error has occured when using the command ' + cmd);
-				// 	console.error('Command from the user: ' + msgContent);
-				//     console.error('Error: ' + error);
-				//     throw new Error(error);
-				// }
+				try {
+					this.actions[cmd](this, msg, args);
+				}
+				catch (error) {
+					console.error('An error has occured when using the command ' + cmd);
+					console.error('Command from the user: ' + msgContent);
+					console.error(error.stack);
+					msg.channel.send(':warning: A critical error has occured when using the command **' + cmd + '**.');
+				}
 			}
 		}
 	});
