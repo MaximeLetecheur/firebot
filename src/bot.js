@@ -1,9 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const LgelAPI = require('./services/lgel-api');
 const { Client, TextChannel } = require('discord.js');
 const Sequelize = require('sequelize');
-const TurndownService = require('turndown');
 const config = require('./config');
 const getdirsSync = require('./methods/getdirsSync');
 
@@ -22,6 +20,7 @@ function Bot() {
 	this.db.sync();
 
 	this.actions = [];
+	this.tasks = [];
 
 	this.jukebox = {};
 	this.songQueues = {};
@@ -135,40 +134,14 @@ Bot.prototype.bindEvents = function() {
 };
 
 Bot.prototype.doTasks = async function() {
-	setInterval(() => {
-		new LgelAPI().getMiniNews().then(response => {
-			const mininews = response.data[0];
+	fs.readdirSync('src/tasks').map((file) => {
+		const key = path.parse(`src/tasks/${file}`).name;
+		this.tasks[key] = require(`./tasks/${file}`);
+	});
 
-			const news = this.db.Lgelnews.findOne({
-				where: { id: mininews.id },
-			}).then(n => {
-				if(!n) {
-					this.db.Lgelnews.create({
-						id: mininews.id,
-						content: mininews.contenu,
-					});
-
-					this.discordClient.guilds.forEach(guild => {
-						if (guild.available) {
-							const channel = guild.channels.find(c => c.name === 'lgel-mininews');
-							if (channel) {
-								const turndownService = new TurndownService();
-								const content = turndownService.turndown(mininews.contenu);
-
-								channel.send({
-									embed: {
-										title: 'Loups-Garous-En-Ligne : Mini-news !',
-										description: content,
-									},
-									timestamp: new Date(),
-								});
-							}
-						}
-					});
-				}
-			});
-		});
-	}, 5000);
+	for(const task of this.tasks) {
+		setInterval(task, 5000);
+	}
 };
 
 module.exports = Bot;
