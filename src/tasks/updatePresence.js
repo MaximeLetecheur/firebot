@@ -1,7 +1,6 @@
 let cycle = 0;
 
 exports.exec = function(bot) {
-	console.log('Cycle: ', cycle);
 	let content = '';
 	switch (cycle) {
 	case 0:

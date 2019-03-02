@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { Client, TextChannel } = require('discord.js');
+const { Client } = require('discord.js');
 const Sequelize = require('sequelize');
 const config = require('./config');
 const getdirsSync = require('./methods/getdirsSync');
