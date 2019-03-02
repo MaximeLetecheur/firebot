@@ -14,3 +14,4 @@ src/.vscode/
 .env
 
 src/config.js
+src/database/*.sqlite
