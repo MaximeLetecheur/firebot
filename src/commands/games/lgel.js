@@ -1,3 +1,4 @@
+const strUcFirst = require('../../methods/strUcFirst');
 const LgelAPI = require('../../services/lgel-api');
 
 function getStatsFields(player) {
@@ -12,14 +13,44 @@ function getStatsFields(player) {
 		statsFields.push({
 			name: `:heart: Marié${player.gender == 'female' ? 'e' : ''} à **${player.wedding.partner}**`,
 			value: `Depuis le ${player.wedding.date}`,
+			inline: true,
 		});
 	}
 	statsFields.push({
-		name: ':game_die: Parties jouées',
-		value : `**${player.playedGames}** parties jouées / **${player.points}** points (**${pointsPerGame}** points par partie)`,
+		name: ':trophy: Badges',
+		value: `Ce joueur possède **${player.achievements.length}** badges.`,
 		inline: true,
-	},
-	{
+	});
+
+	if (player.playedGames !== 0) {
+		statsFields.push({
+			name: ':game_die: Parties jouées',
+			value : `**${player.playedGames}** parties jouées / **${player.points}** points (**${pointsPerGame}** points par partie)`,
+			inline: true,
+		},
+		{
+			name: ':joystick: Dernière partie',
+			value: `(**${player.gamesHistory[0].state}**) Partie **${player.gamesHistory[0].type}** jouée le **${player.gamesHistory[0].date}**.`,
+		});
+	}
+	else {
+		statsFields.push({
+			name: ':game_die: Partie jouée',
+			value : 'Ce joueur n\'a joué **aucune** partie.',
+			inline: true,
+		});
+	}
+	for (const gamesStats of player.gamesStatistics) {
+		if (gamesStats.playedGames !== 0) {
+			const pourcentageGame = (gamesStats.playedGames / player.playedGames * 100).toFixed(2);
+			statsFields.push({
+				name: strUcFirst(gamesStats.type),
+				value: `${gamesStats.playedGames} (${pourcentageGame}%)`,
+				inline: true,
+			});
+		}
+	}
+	statsFields.push({
 		name: ':crown: Titre',
 		value: `"*${player.username}, ${player.title ? player.title : '...'}*"`,
 	},
@@ -77,6 +108,8 @@ module.exports = (bot, msg, args) => {
 				msg.channel.send(':x: The player ' + username + ' does not exist.');
 				return;
 			}
+
+			console.log(response.data);
 
 			const player = response.data;
 			msg.channel.send({
