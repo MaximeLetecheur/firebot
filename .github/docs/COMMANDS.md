@@ -2,6 +2,8 @@
 
 The default prefix of commands is `$` .
 
+\* = Optional parameter.
+
 ## Fun
 | Commands        | Description                         |
 |-----------------|-------------------------------------|
@@ -45,6 +47,3 @@ The default prefix of commands is `$` .
 |----------|------------------------------------|
 | help     | Show a list of available commands. |
 | ping     | Pong.                              |
-
-
-\* = Optional parameter.
