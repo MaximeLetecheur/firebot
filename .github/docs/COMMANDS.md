@@ -9,9 +9,10 @@ The default prefix of commands is `$` .
 
 
 ## Games
-| Commands        | Description                                    |
-|-----------------|------------------------------------------------|
-| lgel [username] | Get stats of any Loups-Garous-En-Ligne player. |
+| Commands                   | Description                                    |
+|----------------------------|------------------------------------------------|
+| apex [platform] [username] | Get stats of any Apex player.                  |
+| lgel [username]            | Get stats of any Loups-Garous-En-Ligne player. |
 
 
 ## Info
@@ -39,7 +40,7 @@ The default prefix of commands is `$` .
 | volume [value]     | Set the volume of the bot. (Between 0 and 100)                                     |
 
 
-## Utils
+## Utilities
 | Commands | Description                        |
 |----------|------------------------------------|
 | help     | Show a list of available commands. |
