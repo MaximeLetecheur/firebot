@@ -8,6 +8,7 @@ The default prefix of commands is `$` .
 | Commands        | Description                         |
 |-----------------|-------------------------------------|
 | lovetest [user] | Test your love with another member. |
+| headshot [user] | Shoot someone!                      |
 
 
 ## Games
