@@ -19,38 +19,42 @@ exports.exec = (bot, msg) => {
 	}
 
 	if (lovePourcent >= 101) {
-		msg.channel.send(':heart_eyes: :kissing_heart:  You love yourself better than anyone else! :smirk:');
+		return msg.channel.send(':heart_eyes: :kissing_heart:  You love yourself better than anyone else ${msg.author} ! :smirk:');
 	}
-	else if (lovePourcent > 90) {
-		msg.channel.send(':sparkling_heart: ' + lovePourcent + '%');
+
+	let emoji = '';
+	if (lovePourcent > 90) {
+		emoji = ':sparkling_heart:';
 	}
 	else if (lovePourcent > 80) {
-		msg.channel.send(':heart: ' + lovePourcent + '%');
+		emoji = ':heart:';
 	}
 	else if (lovePourcent > 70) {
-		msg.channel.send(':smirk: ' + lovePourcent + '%');
+		emoji = ':smirk:';
 	}
 	else if (lovePourcent > 60) {
-		msg.channel.send(':smile: ' + lovePourcent + '%');
+		emoji = ':smile:';
 	}
 	else if (lovePourcent > 50) {
-		msg.channel.send(':slight_smile: ' + lovePourcent + '%');
+		emoji = ':slight_smile:';
 	}
 	else if (lovePourcent > 40) {
-		msg.channel.send(':shrug: ' + lovePourcent + '%');
+		emoji = ':shrug:';
 	}
 	else if (lovePourcent > 30) {
-		msg.channel.send(':slight_frown: ' + lovePourcent + '%');
+		emoji = ':slight_frown:';
 	}
 	else if (lovePourcent > 20) {
-		msg.channel.send(':frowning2: ' + lovePourcent + '%');
+		emoji = ':frowning2:';
 	}
 	else if (lovePourcent > 10) {
-		msg.channel.send(':poop: ' + lovePourcent + '%');
+		emoji = ':poop:';
 	}
 	else {
-		msg.channel.send(':skull_crossbones: ' + lovePourcent + '%');
+		emoji = ':skull_crossbones:';
 	}
+
+	msg.channel.send(`${msg.author} ${emoji} ${msg.mentions.users.first()} : Around ${lovePourcent}% !`);
 };
 
 exports.config = {

@@ -12,7 +12,7 @@ exports.exec = async (bot, msg, args) => {
 	}
 
 	if (!(msg.guild.id in bot.voiceConnections)) {
-		await join(bot, msg);
+		await join.exec(bot, msg).catch(console.error);
 	}
 
 	const youtubeURL = args[0];
