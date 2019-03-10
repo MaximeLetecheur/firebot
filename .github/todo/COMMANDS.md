@@ -30,9 +30,9 @@
 
 
 ## Utilities
-| Commands        | Description                          |
-|-----------------|--------------------------------------|
-| avatar [user]   | Show the current avatar of the user. |
+| Commands           | Description                       |
+|--------------------|-----------------------------------|
+| discordtag [user]  | Show the discord tag of the user. |
 
 
 ## Server configuration

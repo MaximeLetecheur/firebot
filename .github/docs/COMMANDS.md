@@ -44,7 +44,8 @@ The default prefix of commands is `$` .
 
 
 ## Utilities
-| Commands | Description                        |
-|----------|------------------------------------|
-| help     | Show a list of available commands. |
-| ping     | Pong.                              |
+| Commands      | Description                          |
+|---------------|--------------------------------------|
+| avatar [user] | Show the current avatar of the user. |
+| help          | Show a list of available commands.   |
+| ping          | Pong.                                |
