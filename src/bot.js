@@ -5,6 +5,13 @@ const Sequelize = require('sequelize');
 const config = require('./config');
 const getdirsSync = require('./methods/getdirsSync');
 
+const onReady = require('./handlers/ready');
+const onError = require('./handlers/error');
+const onDisconnect = require('./handlers/disconnect');
+const onGuildMemberAdd = require('./handlers/guildMemberAdd');
+const onGuildMemberRemove = require('./handlers/guildMemberRemove');
+const onMessage = require('./handlers/message');
+
 function Bot() {
 	this.discordClient = new Client({ autoReconnect: true });
 	this.db = new Sequelize(config.db.name, config.db.user, config.db.password, {
@@ -49,65 +56,12 @@ Bot.prototype.loadActions = function() {
 };
 
 Bot.prototype.bindEvents = function() {
-	this.discordClient.on('ready', () => {
-		console.log(`Logged in as ${this.discordClient.user.tag}!`);
-		this.doTasks();
-	});
-
-	this.discordClient.on('error', (error) => {
-		console.error(`ERROR: ${error.message}!`);
-		console.error(`${error.stack}!`);
-	});
-
-	this.discordClient.on('disconnect', (err) => {
-		console.error('Bot has been disconnected from discord');
-		console.error(err);
-		// this.discordClient.destroy();
-	});
-
-	this.discordClient.on('guildMemberAdd', (member) => {
-		const channel = member.guild.channels.find(ch => ch.name === 'log');
-		if (!channel) return;
-		channel.send(`Yop, ${member}`);
-	});
-
-	this.discordClient.on('guildMemberRemove', (member) => {
-		const channel = member.guild.channels.find(ch => ch.name === 'log');
-		if (!channel) return;
-		channel.send(`Au revoir, ${member}`);
-	});
-
-	this.discordClient.on('message', (msg) => {
-		// Log the message
-		const guildTag = msg.channel.type === 'text' ? `[${msg.guild.name}]` : '[DM]';
-		const channelTag = msg.channel.type === 'text' ? `[#${msg.channel.name}]` : '';
-		console.log(`${guildTag}${channelTag} ${msg.author.tag}: ${msg.content}`);
-
-		// Ignore all bots
-		if (msg.author.bot) return;
-
-		const msgContent = msg.content.trim();
-		if (msgContent.startsWith(config.prefix)) {
-			const args = msgContent.split(' ');
-			const cmd = args.shift().substr(config.prefix.length);
-			if (cmd in this.actions) {
-				if (this.actions[cmd].config.enabled) {
-					try {
-						this.actions[cmd].exec(this, msg, args);
-					}
-					catch (error) {
-						console.error('An error has occured when using the command ' + cmd);
-						console.error('Command from the user: ' + msgContent);
-						console.error(error.stack);
-						msg.channel.send(':warning: A critical error has occured when using the command **' + cmd + '**.');
-					}
-				}
-				else {
-					msg.channel.send(':x: The command ' + cmd + ' is disabled in this guild.');
-				}
-			}
-		}
-	});
+	this.discordClient.on('ready', () => onReady(this));
+	this.discordClient.on('error', (error) => onError(error, this));
+	this.discordClient.on('disconnect', (error) => onDisconnect(error, this));
+	this.discordClient.on('guildMemberAdd', (member) => onGuildMemberAdd(member, this));
+	this.discordClient.on('guildMemberRemove', (member) => onGuildMemberRemove(member, this));
+	this.discordClient.on('message', (msg) => onMessage(msg, this));
 };
 
 Bot.prototype.doTasks = async function() {
