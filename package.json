@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "lint": "eslint \"src/**\""
+    "jslint": "eslint .",
+    "jslint-fix": "eslint . --fix"
   },
   "author": "Romain Marbaix <contact@romainmarbaix.be>",
   "license": "ISC",
@@ -23,6 +24,10 @@
   },
   "devDependencies": {
     "eslint": "^5.14.1",
-    "nodemon": "^1.18.10"
-  }
+    "nodemon": "^1.18.10",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "jslint-fix"
+  ]
 }
