@@ -6,7 +6,7 @@ exports.exec = (bot, msg) => {
 		return;
 	}
 
-	msg.channel.send(`${msg.author} (　-_･)σ︻デ═一 ${msg.mentions.users.first()}`);
+	msg.channel.send(`${msg.author} ( -_･)σ︻デ═一 ${msg.mentions.users.first()}`);
 };
 
 exports.config = {

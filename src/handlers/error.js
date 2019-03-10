@@ -1,4 +1,4 @@
-module.exports = (error, bot) => {
+module.exports = (error) => {
 	console.error(`ERROR: ${error.message}!`);
 	console.error(`${error.stack}!`);
 };

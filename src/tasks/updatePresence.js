@@ -10,6 +10,7 @@ exports.exec = function(bot) {
 		content = bot.discordClient.users.array().filter(user => !user.bot).length + ' users online!';
 		break;
 	case 2:
+		/* eslint-disable */
 		const uptime = bot.discordClient.uptime;
 		let m = Math.floor((uptime / 1000 / 60) % 60);
 		m = m < 10 ? '0' + m : m;
