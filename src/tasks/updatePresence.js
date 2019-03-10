@@ -7,7 +7,7 @@ exports.exec = function(bot) {
 		content = bot.discordClient.guilds.array().length + ' servers online!';
 		break;
 	case 1:
-		content = bot.discordClient.users.array().length + ' users online!';
+		content = bot.discordClient.users.array().filter(user => !user.bot).length + ' users online!';
 		break;
 	case 2:
 		const uptime = bot.discordClient.uptime;
