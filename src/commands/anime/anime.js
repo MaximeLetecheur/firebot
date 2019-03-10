@@ -3,8 +3,7 @@ const refactorDate = require('../../methods/refactorDate');
 const refactorDateWithTime = require('../../methods/refactorDateWithTime');
 const strUcFirst = require('../../methods/strUcFirst');
 function getAnimeInfos(anime) {
-    const infosFields = [];
-    const youtubeUrl = 'https://www.youtube.com/watch?v=';
+    let infosFields = [];
 
     infosFields.push({
         name: 'Start Date :calendar_spiral:',
@@ -16,7 +15,7 @@ function getAnimeInfos(anime) {
         infosFields.push({
             name: 'End Date :calendar_spiral:',
             value: refactorDate(anime.attributes.endDate),
-            inline: anime.attributes.endDate != null
+            inline: true
         });
     }
     
@@ -45,7 +44,7 @@ function getAnimeInfos(anime) {
     if(anime.attributes.youtubeVideoId != null){
         infosFields.push({
             name: 'Youtube video :arrow_forward:',
-            value: `${youtubeUrl}${anime.attributes.youtubeVideoId}`
+            value: `[Click here](https://www.youtube.com/watch?v=${anime.attributes.youtubeVideoId})`
         });
     }
 
@@ -59,12 +58,11 @@ function getAnimeInfos(anime) {
 
 exports.exec = (bot, msg, args) => {
     const Kitsu = new KitsuAPI();
-    let anime = [];
     Kitsu.findByAnimeName(args.join(' '))
         .then(response => {
             if(response.status == 200){
                 if(response.data.data.length > 0) {
-                    anime = response.data.data[0];
+                    const anime = response.data.data[0];
                     msg.channel.send({
                         embed: {
                             title: `:flag_gb: ${anime.attributes.titles.en_jp}\n:flag_jp: ${anime.attributes.titles.ja_jp}`,
