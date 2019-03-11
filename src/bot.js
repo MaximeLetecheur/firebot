@@ -7,6 +7,8 @@ const getdirsSync = require('./methods/getdirsSync');
 
 const onReady = require('./handlers/ready');
 const onError = require('./handlers/error');
+const onGuildCreate = require('./handlers/guildCreate');
+const onGuildDelete = require('./handlers/guildDelete');
 const onDisconnect = require('./handlers/disconnect');
 const onGuildMemberAdd = require('./handlers/guildMemberAdd');
 const onGuildMemberRemove = require('./handlers/guildMemberRemove');
@@ -24,6 +26,7 @@ function Bot() {
 	});
 	this.db.Lgelnews = this.db.import('database/models/Lgelnews');
 	this.db.User = this.db.import('database/models/User');
+	this.db.Guild = this.db.import('database/models/Guild');
 	this.db.sync();
 
 	this.actions = [];
@@ -58,6 +61,8 @@ Bot.prototype.loadActions = function() {
 Bot.prototype.bindEvents = function() {
 	this.discordClient.on('ready', () => onReady(this));
 	this.discordClient.on('error', (error) => onError(error, this));
+	this.discordClient.on('guildCreate', (guild) => onGuildCreate(guild, this));
+	this.discordClient.on('guildDelete', (guild) => onGuildDelete(guild, this));
 	this.discordClient.on('disconnect', (error) => onDisconnect(error, this));
 	this.discordClient.on('guildMemberAdd', (member) => onGuildMemberAdd(member, this));
 	this.discordClient.on('guildMemberRemove', (member) => onGuildMemberRemove(member, this));
