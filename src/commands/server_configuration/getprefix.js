@@ -3,7 +3,6 @@ exports.exec = (bot, msg) => {
 		where: { guild_id: msg.guild.id },
 	})
 		.then(guild => {
-			console.log(guild);
 			msg.channel.send('Prefix is set to ' + guild.prefix);
 		});
 };

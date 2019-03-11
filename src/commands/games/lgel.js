@@ -3,7 +3,6 @@ const LgelAPI = require('../../services/lgel-api');
 
 function getStatsFields(player) {
 	const statsFields = [];
-	const pointsPerGame = (player.points / player.playedGames).toFixed(2);
 
 	statsFields.push({
 		name: ':raising_hand: Joueur',
@@ -23,6 +22,7 @@ function getStatsFields(player) {
 	});
 
 	if (player.playedGames !== 0) {
+		const pointsPerGame = (player.points / player.playedGames).toFixed(2);
 		statsFields.push({
 			name: ':game_die: Parties jouées',
 			value : `**${player.playedGames}** parties jouées / **${player.points}** points (**${pointsPerGame}** points par partie)`,
@@ -108,8 +108,6 @@ exports.exec = (bot, msg, args) => {
 				msg.channel.send(':x: The player ' + username + ' does not exist.');
 				return;
 			}
-
-			console.log(response.data);
 
 			const player = response.data;
 			msg.channel.send({

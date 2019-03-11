@@ -3,25 +3,21 @@ exports.exec = (bot, msg, args) => {
 
 	if (args.length > 1) {
 		msg.channel.send(':x: Number of arguments incorrect.');
-		console.log(':x: Number of arguments incorrect.');
 		return;
 	}
 
 	const limit = args.length == 1 ? parseInt(args[0]) : 100;
 	if (isNaN(limit)) {
 		msg.channel.send(':x: The argument is not a number.');
-		console.log(':x: The argument is not a number.');
 		return;
 	}
 
 	if (!msg.channel.permissionsFor(msg.author).has('MANAGE_MESSAGES')) {
 		msg.channel.send('Sorry, you don\'t have the permission to execute the command ' + msg.content);
-		console.log('Sorry, you don\'t have the permission to execute the command ' + msg.content);
 		return;
 	}
 	else if (!msg.channel.permissionsFor(bot.discordClient.user).has('MANAGE_MESSAGES')) {
 		msg.channel.send('Sorry, I don\'t have the permission to execute the command ' + msg.content);
-		console.log('Sorry, I don\'t have the permission to execute the command ' + msg.content);
 		return;
 	}
 
@@ -32,7 +28,6 @@ exports.exec = (bot, msg, args) => {
 
 			// Logging the number of msgs deleted on both the channel and console.
 			msg.channel.send('Total messages deleted: ' + nbMsgsDeleted);
-			console.log('Total messages deleted: ' + nbMsgsDeleted);
 		})
 		.catch(err => {
 			console.error('Error while doing Purge');
