@@ -106,6 +106,10 @@ function showListOfAnime(msg, animesList) {
 		},
 	}).then(async postedMessage => {
 		try {
+			for(let i = 0; i < animesList.length; i++) {
+				await postedMessage.react(numberInEmojiUnicodeUntilTen(i + 1));
+			}
+
 			const filter = (reaction, user) => {
 				const emojiAccepted = [];
 				for(let i = 0; i < animesList.length; i++) {
@@ -113,7 +117,7 @@ function showListOfAnime(msg, animesList) {
 				}
 				return emojiAccepted.includes(reaction.emoji.name) && user.id === msg.author.id;
 			};
-			postedMessage.awaitReactions(filter, { max: 1, time: 10000, errors:['time'] })
+			postedMessage.awaitReactions(filter, { max: 1, time: 15000, errors:['time'] })
 				.then(collected => {
 					const reaction = collected.first();
 
