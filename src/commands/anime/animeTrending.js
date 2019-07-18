@@ -3,18 +3,13 @@ const showListOfAnime = require('../../methods/anime/showAnimeList');
 
 exports.exec = (bot, msg, args) => {
 	const Kitsu = new KitsuAPI();
-	Kitsu.findByAnimeName(args.join(' '))
+	Kitsu.findAnimeTrending()
 		.then(response => {
 			if(response.status == 200) {
-				if(response.data.data.length > 0) {
-					showListOfAnime(msg, response.data.data);
-				}
-				else {
-					msg.channel.send('**No results found. Maybe retry with another name...**');
-				}
+                showListOfAnime(msg, response.data.data);
 			}
 			else {
-				msg.channel.send('**Error while retrieving anime information');
+				msg.channel.send('**Error while retrieving anime trending information');
 				console.error(response);
 			}
 		}
