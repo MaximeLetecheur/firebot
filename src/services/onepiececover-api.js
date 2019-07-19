@@ -7,7 +7,6 @@ function OnePieceCoverAPI() {
 }
 
 OnePieceCoverAPI.prototype.findOnePieceChapter = function(chapterNumber) {
-	console.log(`${apiUrl}${chapters}${chapterNumber}`);
 	return axios.get(`${apiUrl}${chapters}${chapterNumber}`);
 };
 

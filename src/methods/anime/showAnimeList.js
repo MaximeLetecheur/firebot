@@ -23,7 +23,6 @@ module.exports = (msg, animesList) => {
 			postedMessage.awaitReactions(filter, { max: 1, time: 15000, errors:['time'] })
 				.then(collected => {
 					const reaction = collected.first();
-                    console.log(reaction.emoji.name);
 					switch(reaction.emoji.name) {
 					case numberInEmojiUnicodeUntilTen(1) :
 						sendAnimeInfos(msg, animesList[0]);

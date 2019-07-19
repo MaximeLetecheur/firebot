@@ -1,10 +1,22 @@
 const OnePieceCoverAPI = require('../../services/onepiececover-api');
 
+function buildTheoriesList(theories) {
+	let theoriesListString = '';
+
+	for(let i = 0; i < theories.length; i++) {
+		theoriesListString += `- ${theories[i]}\n`;
+	}
+
+	return theoriesListString;
+}
+
 function setFieldsInfos(chapterInfos) {
 	const infosFields = [];
 
-
-
+	infosFields.push({
+		name: ':thinking:Theories:',
+		value: `${buildTheoriesList(chapterInfos.theories)}`,
+	});
 
 	return infosFields;
 }
@@ -30,7 +42,7 @@ function showOnePieceChapterInfo(msg, chapterInfos) {
 				url: `${coverUrl}`,
 			},
 			fields: setFieldsInfos(chapterInfos),
-			description: `**Summary : **\n${chapterInfos.summary}\n`,
+			description: `**Summary : **\n${chapterInfos.summary.replace(/<[\w/]*>/g,'')}\n`,
 		},
 	});
 }
