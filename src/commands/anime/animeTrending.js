@@ -9,7 +9,7 @@ exports.exec = (bot, msg, args) => {
                 showListOfAnime(msg, response.data.data);
 			}
 			else {
-				msg.channel.send('**Error while retrieving anime trending information');
+				msg.channel.send('**Error while retrieving anime trending information**');
 				console.error(response);
 			}
 		}

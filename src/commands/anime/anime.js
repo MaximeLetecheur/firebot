@@ -14,7 +14,7 @@ exports.exec = (bot, msg, args) => {
 				}
 			}
 			else {
-				msg.channel.send('**Error while retrieving anime information');
+				msg.channel.send('**Error while retrieving anime information**');
 				console.error(response);
 			}
 		}
